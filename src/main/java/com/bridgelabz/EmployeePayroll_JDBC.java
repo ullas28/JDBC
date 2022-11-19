@@ -3,6 +3,7 @@ package com.bridgelabz;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Scanner;
 
 import static java.sql.DriverManager.getConnection;
 
@@ -22,6 +23,7 @@ public class EmployeePayroll_JDBC {
         employeePayroll_jdbc.connectDatabase();
         EmployeePayroll_JDBC.listDrivers();
         employeePayroll_jdbc.accessEmployeeData();
+        employeePayroll_jdbc.updateEmployeeData();
 
     }
 
@@ -79,4 +81,44 @@ public class EmployeePayroll_JDBC {
             closeConnection();
         }
     }
-}
+
+    public void updateEmployeeData() {
+        try {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter the Salary : ");
+            long basic_pay = sc.nextLong();
+            System.out.println("Enter the Employee Name : ");
+            String employeeName = sc.next();
+
+            connectDatabase();
+            preparedStatement = connection.prepareStatement("update employee_payroll set basic_pay = ? where name= ?");
+            preparedStatement.setLong(1, basic_pay);
+            preparedStatement.setString(2, employeeName);
+            int rows = preparedStatement.executeUpdate();
+            System.out.println(rows + " Rows Updated.");
+            employeeDataArrayList.stream().forEach(x -> {
+                if ((x.getName().equalsIgnoreCase(employeeName))) {
+                    x.setBasic_pay(basic_pay);
+                } else {
+                    x.setBasic_pay(x.getBasic_pay());
+                }
+            });
+            showEmployeeDataList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+    }
+
+        public void showEmployeeDataList(){
+            try {
+                for (EmployeeData employeeData : employeeDataArrayList) {
+                    System.out.println(employeeData.toString());
+                }
+            } catch (NullPointerException e) {
+                throw new UserException(UserException.ExceptionType.NullList,"Employee Data List is Empty.");
+            }
+        }
+    }
+
