@@ -19,11 +19,12 @@ public class EmployeePayroll_JDBC {
 
     ArrayList<EmployeeData> employeeDataArrayList = new ArrayList<>();
     public static void main(String[] args) {
-        EmployeePayroll_JDBC employeePayroll_jdbc = new EmployeePayroll_JDBC();
+        EmployeePayroll_JDBC employeePayroll_jdbc = EmployeePayroll_JDBC.getInstance();
         employeePayroll_jdbc.connectDatabase();
         EmployeePayroll_JDBC.listDrivers();
         employeePayroll_jdbc.accessEmployeeData();
         employeePayroll_jdbc.updateEmployeeData();
+        employeePayroll_jdbc.retrievedata();
 
     }
 
@@ -118,6 +119,48 @@ public class EmployeePayroll_JDBC {
                 }
             } catch (NullPointerException e) {
                 throw new UserException(UserException.ExceptionType.NullList,"Employee Data List is Empty.");
+            }
+        }
+    static EmployeePayroll_JDBC employeePayroll_jdbc = new EmployeePayroll_JDBC();
+
+    private EmployeePayroll_JDBC(){
+
+    }
+    public static EmployeePayroll_JDBC getInstance(){
+        return employeePayroll_jdbc;
+    }
+
+    public void retrievedata(){
+            try {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("Enter the firstname ");
+                String name = sc.nextLine();
+                connectDatabase();
+                preparedStatement = connection.prepareStatement("select * from employee_payroll where name =? ;");
+                preparedStatement.setString(1,name);
+                resultSet = preparedStatement.executeQuery();
+                while(resultSet.next()) {
+                    EmployeeData retrievedata = new EmployeeData();
+                    retrievedata.empid = resultSet.getInt(1);
+                    retrievedata.name = resultSet.getString(2);
+                    retrievedata.phone_number = resultSet.getLong(3);
+                    retrievedata.address = resultSet.getString(4);
+                    retrievedata.department = resultSet.getString(5);
+                    retrievedata.gender = resultSet.getString(6);
+                    retrievedata.basic_pay = resultSet.getLong(7);
+                    retrievedata.deductions = resultSet.getLong(8);
+                    retrievedata.taxablePay = resultSet.getLong(9);
+                    retrievedata.netPay = resultSet.getLong(10);
+                    retrievedata.incomeTax = resultSet.getLong(11);
+                    retrievedata.start = resultSet.getString(12);
+                    ArrayList<EmployeeData> retrieve = new ArrayList<>();
+                    retrieve.add(retrievedata);
+                    System.out.println(retrieve);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                closeConnection();
             }
         }
     }
