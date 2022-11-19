@@ -1,24 +1,36 @@
 package com.bridgelabz;
 
 public class EmployeeData {
-   int empid;
-   String name, address, department, gender, start;
-   long phone_number, basic_pay, deductions, taxablePay, netPay, incomeTax;
+    int empid;
+    String name;
+    long phone_number;
+    String address;
+    String department;
+    String gender;
+    long basic_pay;
+    long deductions;
+    long taxablePay;
+    long netPay;
+    long incomeTax;
+    String start;
 
-    public EmployeeData(int empid, String name, String address, String department, String gender, String start,
-                        long phone_number, long basic_pay, long deductions, long taxablePay, long netPay, long incomeTax) {
+    public EmployeeData(int empid, String name, long phone_number, String address, String department, String gender,
+                        long basic_pay, long deductions, long taxablePay, long netPay, long incomeTax, String start) {
         this.empid = empid;
         this.name = name;
+        this.phone_number = phone_number;
         this.address = address;
         this.department = department;
         this.gender = gender;
-        this.start = start;
-        this.phone_number = phone_number;
         this.basic_pay = basic_pay;
         this.deductions = deductions;
         this.taxablePay = taxablePay;
         this.netPay = netPay;
         this.incomeTax = incomeTax;
+        this.start = start;
+    }
+
+    public EmployeeData() {
     }
 
     public int getEmpid() {
@@ -35,6 +47,14 @@ public class EmployeeData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(long phone_number) {
+        this.phone_number = phone_number;
     }
 
     public String getAddress() {
@@ -59,22 +79,6 @@ public class EmployeeData {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(String start) {
-        this.start = start;
-    }
-
-    public long getPhone_number() {
-        return phone_number;
-    }
-
-    public void setPhone_number(long phone_number) {
-        this.phone_number = phone_number;
     }
 
     public long getBasic_pay() {
@@ -117,21 +121,29 @@ public class EmployeeData {
         this.incomeTax = incomeTax;
     }
 
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
     @Override
     public String toString() {
         return "EmployeeData{" +
                 "empid=" + empid +
                 ", name='" + name + '\'' +
+                ", phone_number=" + phone_number +
                 ", address='" + address + '\'' +
                 ", department='" + department + '\'' +
                 ", gender='" + gender + '\'' +
-                ", start='" + start + '\'' +
-                ", phone_number=" + phone_number +
                 ", basic_pay=" + basic_pay +
                 ", deductions=" + deductions +
                 ", taxablePay=" + taxablePay +
                 ", netPay=" + netPay +
                 ", incomeTax=" + incomeTax +
+                ", start='" + start + '\'' +
                 '}';
     }
 }
